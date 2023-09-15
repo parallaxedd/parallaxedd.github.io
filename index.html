@@ -14,6 +14,7 @@
 <body>
     <script src="./libs/three.min.js"></script>
     <script src="./libs/gsap.min.js"></script>
+    <script src="./libs/OrbitControls.js"></script>
     <script>
         //scene
 const scene = new THREE.Scene();
@@ -26,6 +27,14 @@ camera.position.z = 5;
 const renderer = new THREE.WebGLRenderer();
 renderer.setSize(window.innerWidth, window.innerHeight);
 document.body.appendChild(renderer.domElement);
+
+// Orbit controls
+const controls = new OrbitControls( camera, renderer.domElement );
+controls.mouseButtons = {
+	LEFT: THREE.MOUSE.ROTATE,
+	MIDDLE: THREE.MOUSE.DOLLY,
+	RIGHT: THREE.MOUSE.PAN
+}
 
 //texture for card
 const textureLoader = new THREE.TextureLoader();
