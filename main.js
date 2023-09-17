@@ -20,7 +20,7 @@ const light = new THREE.DirectionalLight(0xffffff, 2.5);
 scene.add(light);
 
 const loader = new GLTFLoader();
-loader.load('../files/Mountain.glb', function (gltf) {
+loader.load('Mountain.glb', function (gltf) {
 	scene.add(gltf.scene);
 }, undefined, function (error) {
 	console.error(error);
