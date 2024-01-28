@@ -2,12 +2,21 @@ const alphabet = "abcdefghijklmnopqrstuvwxyz";
 const uppers = alphabet.toUpperCase().split('');
 const lowers = alphabet.split('');
 const nums = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9];
-const specials = ["!", "@", "#", "$", "%", "-"];
+const specials = ["!", "@", "#", "$", "%", "-", "_", "?"];
 
 function randomNum(min, max) {
     min = Math.ceil(min);
     max = Math.floor(max);
     return Math.floor(Math.random() * (max - min) + min);
+}
+
+function checkSubs(arr) {
+    for (let i = 0; i < arr.length - 1; i++) {
+        if (arr[i].toString().toLowerCase() == arr[i + 1].toString().toLowerCase()) {
+            return false;
+        }
+    }
+    return true;
 }
 
 function shuffleArray(array) {
@@ -22,28 +31,31 @@ function shuffleArray(array) {
 function passwordMaker(length) {
     let password = [];
 
-    let numOfUppers = randomNum(length / 5, length / 3);
+    let numOfUppers = randomNum(length / 4, length / 3);
     let numOfLowers = randomNum(length / 4, length / 3);
     let numOfNumbers = randomNum(length / 4, length / 3);
     let numOfSymbols = length - numOfUppers - numOfLowers - numOfNumbers;
 
     for (let i = 0; i < numOfUppers; i++) {
-        password.push(uppers[randomNum(0, uppers.length - 1)]);
+        password.push(uppers[randomNum(0, uppers.length)]);
     }
 
     for (let i = 0; i < numOfLowers; i++) {
-        password.push(lowers[randomNum(0, lowers.length - 1)]);
+        password.push(lowers[randomNum(0, lowers.length)]);
     }
 
     for (let i = 0; i < numOfNumbers; i++) {
-        password.push(nums[randomNum(0, nums.length - 1)]);
+        password.push(nums[randomNum(0, nums.length)]);
     }
 
     for (let i = 0; i < numOfSymbols; i++) {
-        password.push(specials[randomNum(0, specials.length - 1)]);
+        password.push(specials[randomNum(0, specials.length)]);
     }
 
-    shuffleArray(password);
+    do {
+        shuffleArray(password);
+    }
+    while (checkSubs(password) == false);
 
     return password.join('');
 }
@@ -53,6 +65,7 @@ let dotsPass = "";
 let shown = false;
 let theme = "dark";
 var r = document.querySelector(':root');
+let firstAnim = true;
 
 function swapHoverColor() {
     if (theme == "light") {
@@ -73,13 +86,12 @@ function makeNewPass() {
     for (let i = 0; i < myPass.length; i++) {
         dotsPass += "•";
     }
-    
-    document.getElementById("eye").src = "hide.svg";
-    document.getElementById("pass").classList.remove("font-sm");
-    document.getElementById("pass").classList.add("font-lg");
-    shown = false;
 
-    document.getElementById("pass").innerHTML = dotsPass;
+    if (shown == true) {
+        document.getElementById("pass").innerHTML = myPass;
+    } else if (shown == false) {
+        document.getElementById("pass").innerHTML = dotsPass;
+    }
 }
 
 function showHidePass() {
@@ -101,11 +113,32 @@ function showHidePass() {
 }
 
 function themeToggle() {
-    if (theme == "dark") {
+    if (firstAnim == true) {
+        document.getElementById("circle").classList.add("circle-anim");
+        firstAnim = false;
+    }
+
+    document.getElementById("dlm_button").disabled = true;
+
+    if (theme == "light") {
         document.getElementById("dlm").src = "sun.svg";
 
         document.body.classList.remove("light-mode");
         document.body.classList.add("dark-mode");
+
+        document.getElementById("circle").classList.remove("circle-anim");
+
+        requestAnimationFrame(() => {
+            setTimeout(() => {
+                document.getElementById("circle").classList.add("circle-anim");
+            }, 0);
+        });
+
+        setTimeout(() => {
+            document.body.classList.remove("light-mode-bg");
+            document.body.classList.add("dark-mode-bg");
+            document.getElementById("dlm_button").disabled = false;
+        }, 300);
 
         document.getElementById("len").classList.remove("light-mode-input");
         document.getElementById("new").classList.remove("light-mode-input");
@@ -115,23 +148,37 @@ function themeToggle() {
         document.getElementById("dlm").classList.remove("moon-filter");
         document.getElementById("dlm").classList.add("sun-filter");
 
-        swapHoverColor();
-        theme = "light";
-    } else if (theme == "light") {
+        theme = "dark";
+    } else if (theme == "dark") {
         document.getElementById("dlm").src = "moon.svg";
 
-        document.body.classList.add("light-mode");
         document.body.classList.remove("dark-mode");
+        document.body.classList.add("light-mode");
 
-        document.getElementById("len").classList.add("light-mode-input");
-        document.getElementById("new").classList.add("light-mode-input");
+        document.getElementById("circle").classList.remove("circle-anim");
+
+        requestAnimationFrame(() => {
+            setTimeout(() => {
+                document.getElementById("circle").classList.add("circle-anim");
+            }, 0);
+        });
+
+        setTimeout(() => {
+            document.body.classList.remove("dark-mode-bg");
+            document.body.classList.add("light-mode-bg");
+            document.getElementById("dlm_button").disabled = false;
+        }, 300);
+
         document.getElementById("len").classList.remove("dark-mode-input");
         document.getElementById("new").classList.remove("dark-mode-input");
+        document.getElementById("len").classList.add("light-mode-input");
+        document.getElementById("new").classList.add("light-mode-input");
 
         document.getElementById("dlm").classList.remove("sun-filter");
         document.getElementById("dlm").classList.add("moon-filter");
 
-        swapHoverColor();
-        theme = "dark";
+        theme = "light";
     }
+
+    swapHoverColor();
 }
