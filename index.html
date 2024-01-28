@@ -4,27 +4,30 @@
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content="Page to generate a random password given a specified length" />
     <title>Password Generator</title>
     <link rel="stylesheet" href="style.css">
-    <script src="script.js"></script>
+    <script src="script.js" defer></script>
 </head>
 
-<body class="light-mode">
+<body class="dark-mode dark-mode-bg">
 
     <div class="container">
-        <div class="lbl">Enter a length</div>
-        <div class="pass-box">
-            <div class="password font-lg" id="pass"></div>
-            <button class="showhide" onclick="showHidePass()">
-                <img src="hide.svg" id="eye">
+        <div class="lbl front">Enter a length</div>
+        <div class="pass-box front">
+            <div class="password font-lg front" id="pass"></div>
+            <button class="showhide front" name="showhide" onclick="showHidePass()">
+                <img src="hide.svg" id="eye" alt="Password show/hide button">
             </button>
         </div>
         <div class="inputs">
-            <input type="number" class="passLength light-mode-input" id="len" placeholder="Length" />
-            <input type="button" class="newPass light-mode-input" id="new" value="New password" onclick="makeNewPass()" />
+            <input type="number" class="passLength dark-mode-input front" id="len" placeholder="Length" />
+            <input type="button" class="newPass dark-mode-input front" id="new" value="New password"
+                onclick="makeNewPass()" />
         </div>
-        <button class="darklightmode" onclick="themeToggle()">
-            <img src="moon.svg" class="moon-filter" id="dlm">
+        <button class="darklightmode" name="darklightmode" id="dlm_button" onclick="themeToggle()">
+            <img src="sun.svg" class="sun-filter front" id="dlm" alt="Sun/moon to switch page theme">
+            <div class="circle " id="circle"></div>
         </button>
     </div>
 
