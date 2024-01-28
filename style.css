@@ -1,8 +1,8 @@
 @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@600&display=swap');
 
 :root {
-    --button-hover-color: #212121;
-    --button-text-color: #e8e8e8;
+    --button-hover-color: #e8e8e8;
+    --button-text-color: #212121;
 }
 
 * {
@@ -12,11 +12,27 @@
     font-family: Montserrat, sans-serif;
 }
 
+@keyframes themetoggle {
+    from {
+        width: 1px;
+        height: 1px;
+    }
+
+    to {
+        width: calc(90vw + 90vh);
+        height: calc(90vw + 90vh);
+    }
+}
+
+.front {
+    z-index: 99;
+}
+
 /* clear up down arrows for length input */
 input::-webkit-outer-spin-button,
 input::-webkit-inner-spin-button {
-  -webkit-appearance: none;
-  margin: 0;
+    -webkit-appearance: none;
+    margin: 0;
 }
 
 /* font sizes for password */
@@ -34,19 +50,26 @@ body {
     justify-content: center;
     align-items: center;
     height: 100vh;
+    overflow: hidden;
 }
 
 /* light and dark mode for background */
 .light-mode {
-    background-color: #e8e8e8;
     color: #212121;
     transition: 0.1s;
 }
 
+.light-mode-bg {
+    background-color: #e8e8e8;
+}
+
 .dark-mode {
-    background-color: #212121;
     color: #e8e8e8;
     transition: 0.1s;
+}
+
+.dark-mode-bg {
+    background-color: #212121;
 }
 
 /* colors for sun/moon svg */
@@ -116,7 +139,7 @@ img {
     justify-content: space-evenly;
 }
 
-.inputs > * {
+.inputs>* {
     border-radius: 5px;
 }
 
@@ -172,17 +195,32 @@ img {
 /* position of sun/moon svg */
 .darklightmode {
     display: flex;
+    position: relative;
     width: 5vh;
     height: 5vh;
     margin: 50px auto 0 auto;
     background-color: transparent;
     border: none;
-    transition: 0.25s ease-in-out;
+    transition: 0.25s ease-out;
+    justify-content: center;
+    align-items: center;
 }
 
-/* clean as fuck = smooth as a babys ass */
 .darklightmode:hover {
     rotate: -10deg;
     scale: 1.05;
     cursor: pointer;
+}
+
+/* dark-light mode switch animation */
+.circle {
+    position: absolute;
+    margin: 25% 0;
+    border-radius: 50%;
+    background-color: var(--button-text-color);
+    z-index: 1;
+}
+
+.circle-anim {
+    animation: themetoggle 0.4s ease-out 1;
 }
